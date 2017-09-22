@@ -74,4 +74,18 @@ public class KitchenSinkTester {
 		assertThat(!thrown).isEqualTo(true);
 		assertThat(result).isEqualTo("def");
 	}
+	
+	// Additional test case
+	@Test
+	public void testSentence() throws Exception {
+		boolean thrown = false;
+		String result = null;
+		try {
+			result = this.databaseEngine.search("Who is Prof Kim");
+		} catch (Exception e) {
+			thrown = true;
+		}
+		assertThat(!thrown).isEqualTo(true);
+		assertThat(result).isEqualTo("Well, this is your instructor.");
+	}
 }
