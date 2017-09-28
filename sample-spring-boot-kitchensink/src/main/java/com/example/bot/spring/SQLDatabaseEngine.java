@@ -15,7 +15,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		String result = null;
 		ResultSet rs = null;
 		Connection connection = getConnection();
-		PreparedStatement stmt = connection.prepareStatement("select response from keyresponse where keyword='"+text+"'");
+		PreparedStatement stmt = connection.prepareStatement("select response from keyresponse where keyword='"+text+"';");
 		//stmt.setString(1, text);
 		try {
 			rs = stmt.executeQuery();
