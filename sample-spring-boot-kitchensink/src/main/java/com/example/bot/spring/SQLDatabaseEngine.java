@@ -14,17 +14,21 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		//Write your code here
 		String result = null;
 		ResultSet rs = null;
-		Connection connection = getConnection();
-		PreparedStatement stmt = connection.prepareStatement("select response from keyresponse where keyword='"+text+"';");
-		//stmt.setString(1, text);
+		Connection connection = null;
+		PreparedStatement stmt = null;
 		try {
+			connection = getConnection();
+			stmt = connection.prepareStatement("select response from keyresponse where keyword like concat('%',?,'%')");
+			stmt.setString(1, text);
 			rs = stmt.executeQuery();
 			log.info("Executing query...");
-			if (rs.first()) { // check if there is any result
+			if (rs.next()) { // check if there is any result
 				 result = rs.getString(1);
+				 log.info("Found response: "+result);
 			}
+		} catch (URISyntaxException e) {	
+			log.info(e.toString());
 		} catch (SQLException e) { 
-			log.info("KILL ME");
 			log.info(e.toString()); 
 		} finally {
 			try {
@@ -35,7 +39,6 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 				if (connection!=null)
 					connection.close();
 			} catch (SQLException e) {
-				log.info("KILL ME");
 				log.info(e.toString());
 			}
 		}
