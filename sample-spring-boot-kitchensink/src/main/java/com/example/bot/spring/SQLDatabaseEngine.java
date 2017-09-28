@@ -15,14 +15,15 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		String result = null;
 		ResultSet rs = null;
 		Connection connection = getConnection();
-		PreparedStatement stmt = connection.prepareStatement("select response from keyresponse where keyword='?'");
-		stmt.setString(1, text);
+		PreparedStatement stmt = connection.prepareStatement("select response from keyresponse where keyword='"+text+"'");
+		//stmt.setString(1, text);
 		try {
 			rs = stmt.executeQuery();
 			if (rs.first()) { // check if there is any result
 				 result = rs.getString(1);
 			}
 		} catch (SQLException e) { 
+			System.err.println("KILL ME");
 			log.info(e.toString()); 
 		} finally {
 			try {
@@ -33,6 +34,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 				if (connection!=null)
 					connection.close();
 			} catch (SQLException e) {
+				System.err.println("KILL ME");
 				log.info(e.toString());
 			}
 		}
