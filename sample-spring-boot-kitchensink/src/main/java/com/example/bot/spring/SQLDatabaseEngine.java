@@ -19,11 +19,12 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 		//stmt.setString(1, text);
 		try {
 			rs = stmt.executeQuery();
+			log.info("Executing query...");
 			if (rs.first()) { // check if there is any result
 				 result = rs.getString(1);
 			}
 		} catch (SQLException e) { 
-			System.err.println("KILL ME");
+			log.info("KILL ME");
 			log.info(e.toString()); 
 		} finally {
 			try {
@@ -34,7 +35,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 				if (connection!=null)
 					connection.close();
 			} catch (SQLException e) {
-				System.err.println("KILL ME");
+				log.info("KILL ME");
 				log.info(e.toString());
 			}
 		}
