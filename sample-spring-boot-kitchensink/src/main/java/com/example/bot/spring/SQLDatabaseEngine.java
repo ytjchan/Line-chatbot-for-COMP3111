@@ -12,17 +12,18 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 	@Override
 	String search(String text) throws Exception {
 		//Write your code here
+		String result = null;
+		ResultSet rs = null;
+		Connection connection = getConnection();
+		PreparedStatement stmt = connection.prepareStatement("select response from keyresponse where keyword='?'");
+		stmt.setString(1, text);
 		try {
-			String result = null;
-			Connection connection = getConnection();
-			PreparedStatement stmt = connection.prepareStatement("select response from keyresponse where keyword=?");
-			stmt.setString(1, text);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) { // check if there is any result
+			rs = stmt.executeQuery();
+			if (rs.first()) { // check if there is any result
 				 result = rs.getString(1);
 			}
 		} catch (SQLException e) { 
-			log.info(e); 
+			log.info(e.toString()); 
 		} finally {
 			try {
 				if (rs!=null)
@@ -32,7 +33,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
 				if (connection!=null)
 					connection.close();
 			} catch (SQLException e) {
-				log.info(e);
+				log.info(e.toString());
 			}
 		}
 		if (result!=null)
